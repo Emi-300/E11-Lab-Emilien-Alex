@@ -20,15 +20,18 @@ bme680.sea_level_pressure = 1013.25
 # separate temperature sensor to calibrate this one.
 temperature_offset = -5
 
-while (time.time() < 10):
+start = time.time()
 
 
-    print(f"""\nTime: {time.ctime()}s \n
-          Temperature: {bme680.temperature + temperature_offset:.1f} C \n
-          Gas: {bme680.gas}d ohm \n
-          Humidity: {bme680.relative_humidity:.1f} % \n
-          Pressure: {bme680.pressure:.3f} hPa \n
+while (time.time() < start + 10):
+
+
+    print(f"""\n          Time: {time.ctime()}s 
+          Temperature: {bme680.temperature + temperature_offset:.1f} C 
+          Gas: {bme680.gas}d ohm 
+          Humidity: {bme680.relative_humidity:.1f} % 
+          Pressure: {bme680.pressure:.3f} hPa 
           Altitude = {bme680.altitude:.2f} meters
           """)
 
-    time.sleep(1)
+    time.sleep(1)   

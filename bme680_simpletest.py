@@ -23,16 +23,22 @@ temperature_offset = -5
 #set time to zero when woken up
 start = time.time()
 
+start = time.time()
+
+
+while (time.time() < start + 10):
+
 while (time.time() < 10):
 
-    print(f"""\nTime: {time.ctime()}s \n
-          Temperature: {bme680.temperature + temperature_offset:.1f} C \n
-          Gas: {bme680.gas}d ohm \n
-          Humidity: {bme680.relative_humidity:.1f} % \n
-          Pressure: {bme680.pressure:.3f} hPa \n
+    print(f"""\n          Time: {time.ctime()}s 
+          Temperature: {bme680.temperature + temperature_offset:.1f} C 
+          Gas: {bme680.gas}d ohm 
+          Humidity: {bme680.relative_humidity:.1f} % 
+          Pressure: {bme680.pressure:.3f} hPa 
           Altitude = {bme680.altitude:.2f} meters
           """)
 
+    time.sleep(1)   
     #save data in csv file
     with open("/sd/bme680_data.csv", "a") as f:
         f.write(

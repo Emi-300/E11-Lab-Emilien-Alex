@@ -20,8 +20,10 @@ bme680.sea_level_pressure = 1013.25
 # separate temperature sensor to calibrate this one.
 temperature_offset = -5
 
-while (time.time() < 10):
+#set time to zero when woken up
+start = time.time()
 
+while (time.time() < 10):
 
     print(f"""\nTime: {time.ctime()}s \n
           Temperature: {bme680.temperature + temperature_offset:.1f} C \n
@@ -31,4 +33,13 @@ while (time.time() < 10):
           Altitude = {bme680.altitude:.2f} meters
           """)
 
+    #save data in csv file
+    with open("/sd/bme680_data.csv", "a") as f:
+        f.write(
+            f"{time.ctime()},{bme680.temperature + temperature_offset:.1f},{bme680.gas},{bme680.relative_humidity:.1f},{bme680.pressure:.3f},{bme680.altitude:.2f}\n"
+        )
+
     time.sleep(1)
+
+
+

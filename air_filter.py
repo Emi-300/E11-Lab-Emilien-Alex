@@ -50,7 +50,7 @@ print("Found PM2.5 sensor, reading data...")
 
 
 #initialize file
-file = open("/data/air_filter_data.csv","w",newline=None)
+file = open("data/air_filter_data.csv","w",newline=None)
 
 csvwriter = csv.writer(file,delimiter=',')
 

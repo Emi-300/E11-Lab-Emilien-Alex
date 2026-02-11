@@ -56,7 +56,10 @@ csvwriter = csv.writer(file,delimiter=',')
 
 csvwriter.writerow(["time", "pm10standard", "pm25standard", "pm100standard","pm10env","pm25env","pm100 env","p03um","p05um","p10um","p25um","p50um","p100um"])
 
-while True:
+start = time.time()
+
+
+while (time.time() < start + 30):
     time.sleep(1)
 
     try:
@@ -66,6 +69,8 @@ while True:
         print("Unable to read from sensor, retrying...")
         continue
 
+    print(f"\n          Time: {time.ctime()}s" )
+   
     print()
     print("Concentration Units (standard)")
     print("---------------------------------------")

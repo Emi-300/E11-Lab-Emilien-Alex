@@ -57,8 +57,6 @@ csvwriter = csv.writer(file,delimiter=',')
 csvwriter.writerow(["time", "pm10standard", "pm25standard", "pm100standard","pm10env","pm25env","pm100 env","p03um","p05um","p10um","p25um","p50um","p100um"])
 
 start = time.time()
-
-
 while (time.time() < start + 30):
     time.sleep(1)
 
@@ -68,6 +66,11 @@ while (time.time() < start + 30):
     except RuntimeError:
         print("Unable to read from sensor, retrying...")
         continue
+
+
+    #write all data to file
+    
+    csvwriter.writerow([time.ctime(), aqdata["pm10 standard"], aqdata["pm25 standard"], aqdata["pm100 standard"],aqdata["pm10 env"], aqdata["pm25 env"], aqdata["pm100 env"],aqdata["particles 03um"],aqdata["particles 05um"],aqdata["particles 10um"],aqdata["particles 25um"],aqdata["particles 50um"],aqdata["particles 100um"]])
 
     print(f"\n          Time: {time.ctime()}s" )
    
@@ -94,7 +97,6 @@ while (time.time() < start + 30):
     print("---------------------------------------")
 
 
-file.close()
 
 
     

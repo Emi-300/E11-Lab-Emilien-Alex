@@ -39,7 +39,6 @@ except Exception as e:
     print("Unable to parse runtime argument")
     print("----------------------")
     print(e)
-else:
     runtime = 10
 
 

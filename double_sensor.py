@@ -6,14 +6,18 @@ import adafruit_bme680
 import csv
 
 import board
-from digitalio import DigitalInOut, Direction, Pull
 
-from adafruit_pm25.i2c import PM25_I2C
+from adafruit_pm25.uart import PM25_UART
+
+import serial
+
+
+#ARGUMENTS - 1: name of file to save to (without .csv) - will not save if not given
+#            2: runtime in seconds (optional, default is 10 seconds)   
+
 
 reset_pin = None
-import serial
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=0.25)
-from adafruit_pm25.uart import PM25_UART
 pm25 = PM25_UART(uart, reset_pin)
 print("Found PM2.5 sensor, reading data...")
 

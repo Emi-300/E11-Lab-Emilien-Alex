@@ -43,7 +43,6 @@ except Exception as e:
     print("Unable to parse runtime argument")
     print("----------------------")
     print(e)
-else:
     runtime = 10
 
 
@@ -60,7 +59,7 @@ else:
     csvwriter.writerow(["time","temperature","gas","humidity","pressure","altitude","pm10standard", "pm25standard", "pm100standard","pm10env","pm25env","pm100 env","p03um","p05um","p10um","p25um","p50um","p100um"])
 
 
-while (time.time() < start + runtime):
+while (time.time() < start + runtime + 1):
     time.sleep(1)
 
     try:

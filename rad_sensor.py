@@ -5,8 +5,9 @@ import matplotlib.pyplot as plt
 
 sys.path.append('/home/pi/cape_mca') # capemca.py directory
 from capemca import CapeMCA
+from capemca import find_all_mcas
 
-devices = CapeMCA.find_all_mcas()
+devices = find_all_mcas()
 print(f"Found {len(devices)} MCA device(s)")
 
 

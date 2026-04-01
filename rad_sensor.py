@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 sys.path.append('/home/pi/cape_mca') # capemca.py directory
 from capemca import CapeMCA
 from capemca import find_all_mcas
+from capemca import SPECTRUM_CHANNELS
 
 devices = find_all_mcas()
 print(f"Found {len(devices)} MCA device(s)")
@@ -53,7 +54,7 @@ with CapeMCA() as mca:
             print(f"         spectrum: ch0={spectrum[0]}, specSum={spec_total}, "
                     f"nonzeroCh={nonzero}")
 
-            active = [(ch, spectrum[ch]) for ch in range(1, CapeMCA.SPECTRUM_CHANNELS)
+            active = [(ch, spectrum[ch]) for ch in range(1, SPECTRUM_CHANNELS)
                         if spectrum[ch] > 0]
             print(f"         channels: {active}")
 
@@ -76,7 +77,7 @@ if spectra:
 
     # Top: waterfall heatmap — channels vs read number
     im = ax1.imshow(waterfall, aspect='auto', origin='lower',
-                    extent=[1, CapeMCA.SPECTRUM_CHANNELS - 1, 0.5, len(spectra) + 0.5],
+                    extent=[1, SPECTRUM_CHANNELS - 1, 0.5, len(spectra) + 0.5],
                     interpolation='nearest', cmap='hot')
     ax1.set_xlabel("Channel")
     ax1.set_ylabel("Read #")
@@ -90,7 +91,7 @@ if spectra:
 
     # Bottom: summed spectrum (log scale)
     summed = waterfall.sum(axis=0)
-    ax2.plot(range(1, CapeMCA.SPECTRUM_CHANNELS), summed, 'k-', linewidth=0.8)
+    ax2.plot(range(1, SPECTRUM_CHANNELS), summed, 'k-', linewidth=0.8)
     ax2.set_yscale('log')
     ax2.set_xlabel("Channel")
     ax2.set_ylabel("Counts (summed)")

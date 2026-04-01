@@ -27,7 +27,7 @@ if not devices:
 hasfile = False
 
 try:
-    file = open(f"data/{arguments[0]}.csv","w",newline=None)
+    file = open(f"data/{sys.argv[1]}.csv","w",newline=None)
 except Exception as e:
     print("Unable to read file (remove the .csv from the name)")
     print("----------------------")
@@ -39,15 +39,15 @@ else:
 
 
 try:
-    duration = int(arguments[1]) if len(sys.argv) > 1 else 120.0
+    duration = int(sys.argv[2]) if len(sys.argv) > 2 else 120.0
 except Exception as e:
-    print("Unable to parse runtime argument")
+    print("Unable to parse duration argument")
     print("----------------------")
     print(e)
     duration = 120
 
 try:
-    window = int(arguments[2]) if len(sys.argv) > 2 else 10.0 
+    window = int(sys.argv[3]) if len(sys.argv) > 3 else 10.0 
 except Exception as e:
     print("Unable to parse interval argument")
     print("----------------------")

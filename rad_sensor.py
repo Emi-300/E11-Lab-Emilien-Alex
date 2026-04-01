@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 sys.path.append('/home/pi/cape_mca') # capemca.py directory
+
 from capemca import CapeMCA
 from capemca import find_all_mcas
 from capemca import SPECTRUM_CHANNELS
@@ -15,11 +16,19 @@ print(f"Found {len(devices)} MCA device(s)")
 if not devices:
     sys.exit(1)
 
-duration = float(sys.argv[1]) if len(sys.argv) > 1 else 60.0
-window = float(sys.argv[2]) if len(sys.argv) > 2 else 15.0
+#TODO - save spectra to file (CSV or binary)
+#TODO - Parameters (filename, runtime, interval length)
+
+
+#PARAMETERS (Add filename + error handling)
+duration = float(sys.argv[1]) if len(sys.argv) > 1 else 60.0 #runtime
+window = float(sys.argv[2]) if len(sys.argv) > 2 else 15.0 #interval legnth
+
 
 spectra = []
 read_times = []
+
+
 
 with CapeMCA() as mca:
     try:
@@ -69,35 +78,3 @@ with CapeMCA() as mca:
         print(f"\nError after {reads} reads: {e}")
 
 print("Device closed, exiting.")
-
-if spectra:
-    waterfall = np.array(spectra)
-
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
-
-    # Top: waterfall heatmap — channels vs read number
-    im = ax1.imshow(waterfall, aspect='auto', origin='lower',
-                    extent=[1, SPECTRUM_CHANNELS - 1, 0.5, len(spectra) + 0.5],
-                    interpolation='nearest', cmap='hot')
-    ax1.set_xlabel("Channel")
-    ax1.set_ylabel("Read #")
-    ax1.set_title(f"Spectrum waterfall ({window}s window)")
-    # Label y-axis ticks with timestamps
-    yticks = list(range(1, len(spectra) + 1))
-    ylabels = [f"{reads} ({t:.0f}s)" for reads, t in zip(yticks, read_times)]
-    ax1.set_yticks(yticks)
-    ax1.set_yticklabels(ylabels, fontsize=7)
-    fig.colorbar(im, ax=ax1, label="Counts")
-
-    # Bottom: summed spectrum (log scale)
-    summed = waterfall.sum(axis=0)
-    ax2.plot(range(1, SPECTRUM_CHANNELS), summed, 'k-', linewidth=0.8)
-    ax2.set_yscale('log')
-    ax2.set_xlabel("Channel")
-    ax2.set_ylabel("Counts (summed)")
-    ax2.set_title(f"Summed spectrum ({len(spectra)} reads, {window}s windows)")
-
-    plt.tight_layout()
-    plt.savefig("spectra.png", dpi=150)
-    print("Plot saved to spectra.png")
-    plt.show()

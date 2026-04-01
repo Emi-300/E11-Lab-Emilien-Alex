@@ -1,3 +1,5 @@
+from ast import arguments
+import csv
 import sys
 import time
 import numpy as np
@@ -20,15 +22,40 @@ if not devices:
 #TODO - Parameters (filename, runtime, interval length)
 
 
-#PARAMETERS (Add filename + error handling)
-duration = float(sys.argv[1]) if len(sys.argv) > 1 else 60.0 #runtime
-window = float(sys.argv[2]) if len(sys.argv) > 2 else 15.0 #interval legnth
+#PARAMETERS
+
+hasfile = False
+
+try:
+    duration = int(arguments[2]) if len(sys.argv) > 1 else 120.0
+except Exception as e:
+    print("Unable to parse runtime argument")
+    print("----------------------")
+    print(e)
+    runtime = 120
+
+try:
+    window = int(arguments[3]) if len(sys.argv) > 2 else 10.0 
+except Exception as e:
+    print("Unable to parse interval argument")
+    print("----------------------")
+    print(e)
+    runtime = 10
+
+try:
+    file = open(f"data/{arguments[1]}.csv","w",newline=None)
+except Exception as e:
+    print("Unable to read file (remove the .csv from the name)")
+    print("----------------------")
+    print(e)
+else:
+    hasfile = True
+    csvwriter = csv.writer(file,delimiter=',')
+    csvwriter.writerow(["time","cps","totalCount","totalIntervals"] + [f"ch{ch}" for ch in range(SPECTRUM_CHANNELS)])
 
 
 spectra = []
 read_times = []
-
-
 
 with CapeMCA() as mca:
     try:
@@ -70,6 +97,10 @@ with CapeMCA() as mca:
             spectra.append(spec_data)
             read_times.append(elapsed)
             reads += 1
+
+            if hasfile:
+                csvwriter.writerow([elapsed, status.cps, status.total_count,
+                                    status.total_intervals] + spec_data)
 
         print(f"\nCompleted {reads} reads in {time.time() - start:.2f}s "
                 f"(window={window}s)")

@@ -27,23 +27,7 @@ if not devices:
 hasfile = False
 
 try:
-    duration = int(arguments[2]) if len(sys.argv) > 1 else 120.0
-except Exception as e:
-    print("Unable to parse runtime argument")
-    print("----------------------")
-    print(e)
-    runtime = 120
-
-try:
-    window = int(arguments[3]) if len(sys.argv) > 2 else 10.0 
-except Exception as e:
-    print("Unable to parse interval argument")
-    print("----------------------")
-    print(e)
-    runtime = 10
-
-try:
-    file = open(f"data/{arguments[1]}.csv","w",newline=None)
+    file = open(f"data/{arguments[0]}.csv","w",newline=None)
 except Exception as e:
     print("Unable to read file (remove the .csv from the name)")
     print("----------------------")
@@ -52,6 +36,23 @@ else:
     hasfile = True
     csvwriter = csv.writer(file,delimiter=',')
     csvwriter.writerow(["time","cps","totalCount","totalIntervals"] + [f"ch{ch}" for ch in range(SPECTRUM_CHANNELS)])
+
+
+try:
+    duration = int(arguments[1]) if len(sys.argv) > 1 else 120.0
+except Exception as e:
+    print("Unable to parse runtime argument")
+    print("----------------------")
+    print(e)
+    duration = 120
+
+try:
+    window = int(arguments[2]) if len(sys.argv) > 2 else 10.0 
+except Exception as e:
+    print("Unable to parse interval argument")
+    print("----------------------")
+    print(e)
+    window = 10
 
 
 spectra = []
